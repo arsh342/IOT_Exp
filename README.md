@@ -1,13 +1,13 @@
 # These are the libraries need to install:
 
-##### Adafruit_Unified_Sensor
-#####  AM2302-Sensor
-#####  Bonezegei_DHT22
-#####  DHT_sensor_library
-#####  DHT_sensor_library_for_ESPx
-#####  DHT_Sensors_Non-Blocking
-#####  DHT11
-#####  DHT22
-#####  LiquidCrystal
-#####  LiquidCrystal_I2C
-#####  Servo
+##### 1.Adafruit_Unified_Sensor
+##### 2.AM2302-Sensor
+##### 3.Bonezegei_DHT22
+##### 4.DHT_sensor_library
+##### 5.DHT_sensor_library_for_ESPx
+##### 6.DHT_Sensors_Non-Blocking
+##### 7.DHT11
+##### 8.DHT22
+##### 9.LiquidCrystal
+##### 10.LiquidCrystal_I2C
+##### 11.Servo
