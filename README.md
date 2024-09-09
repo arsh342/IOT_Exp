@@ -9,5 +9,4 @@
 ##### 7.DHT11
 ##### 8.DHT22
 ##### 9.LiquidCrystal
-##### 10.LiquidCrystal_I2C
-##### 11.Servo
+##### 10.LiquidCrystal I2C
