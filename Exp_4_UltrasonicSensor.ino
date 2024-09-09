@@ -1,30 +1,41 @@
-// Define the digital pin for the IR sensor
-const int irPin = 2;
+// Define pins for the ultrasonic sensor
+const int trigPin = 9;
+const int echoPin = 10;
 
-// Variable to store the sensor state
-int sensorState;
+// Variables to store the duration of the pulse and the distance
+long duration;
+int distance;
 
 void setup() {
-  // Set the irPin as an input
-  pinMode(irPin, INPUT);
+  // Set the trigPin as an output and the echoPin as an input
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
   
-  // Begin the serial communication at a baud rate of 9600
+  // Begin serial communication at 9600 baud
   Serial.begin(9600);
 }
 
 void loop() {
-  // Read the state of the IR sensor
-  sensorState = digitalRead(irPin);
+  // Clear the trigPin by setting it LOW
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
   
-  // Check if the sensor detects an object
-  if (sensorState == LOW) {
-    // Object detected
-    Serial.println("Motion Detected");
-  } else {
-    // No object detected
-    Serial.println("No Motion");
-  }
+  // Send a 10 microsecond HIGH pulse to trigPin
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
   
-  // Wait for 200 milliseconds before the next check
-  delay(200);
+  // Measure the duration of the pulse on echoPin
+  duration = pulseIn(echoPin, HIGH);
+  
+  // Calculate the distance in centimeters (speed of sound = 0.034 cm/µs)
+  distance = duration * 0.034 / 2;
+  
+  // Print the distance to the Serial Monitor
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+  
+  // Wait before the next measurement
+  delay(60);
 }
