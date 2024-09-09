@@ -1,41 +1,44 @@
-// Define pins for the ultrasonic sensor
-const int trigPin = 9;
-const int echoPin = 10;
+#include "DHT.h"
 
-// Variables to store the duration of the pulse and the distance
-long duration;
-int distance;
+// Define the pin where the data pin of the DHT22 is connected
+#define DHTPIN 2 
+
+// Define the type of DHT sensor
+#define DHTTYPE DHT22 
+
+// Create a DHT object
+DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
-  // Set the trigPin as an output and the echoPin as an input
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);
-  
-  // Begin serial communication at 9600 baud
+  // Start serial communication for debugging purposes
   Serial.begin(9600);
+  
+  // Initialize the DHT sensor
+  dht.begin();
 }
 
 void loop() {
-  // Clear the trigPin by setting it LOW
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
+  // Wait a few seconds between measurements
+  delay(2000);
   
-  // Send a 10 microsecond HIGH pulse to trigPin
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
+  // Read humidity and temperature values from the DHT22 sensor
+  float humidity = dht.readHumidity();
+  float temperatureC = dht.readTemperature(); // in Celsius
+  float temperatureF = dht.readTemperature(true); // in Fahrenheit
   
-  // Measure the duration of the pulse on echoPin
-  duration = pulseIn(echoPin, HIGH);
-  
-  // Calculate the distance in centimeters (speed of sound = 0.034 cm/µs)
-  distance = duration * 0.034 / 2;
-  
-  // Print the distance to the Serial Monitor
-  Serial.print("Distance: ");
-  Serial.print(distance);
-  Serial.println(" cm");
-  
-  // Wait before the next measurement
-  delay(60);
+  // Check if any reads failed and exit early (to try again)
+  if (isnan(humidity) || isnan(temperatureC) || isnan(temperatureF)) {
+    Serial.println("Failed to read from DHT sensor!");
+    return;
+  }
+
+  // Print the results to the Serial Monitor
+  Serial.print("Humidity: ");
+  Serial.print(humidity);
+  Serial.print(" %\t");
+  Serial.print("Temperature: ");
+  Serial.print(temperatureC);
+  Serial.print(" °C ");
+  Serial.print(temperatureF);
+  Serial.println(" °F");
 }
