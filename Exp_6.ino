@@ -1,44 +1,18 @@
-#include "DHT.h"
-
-// Define the pin where the data pin of the DHT22 is connected
-#define DHTPIN 2 
-
-// Define the type of DHT sensor
-#define DHTTYPE DHT22 
-
-// Create a DHT object
-DHT dht(DHTPIN, DHTTYPE);
-
 void setup() {
-  // Start serial communication for debugging purposes
-  Serial.begin(9600);
-  
-  // Initialize the DHT sensor
-  dht.begin();
+  pinMode(A0, INPUT);         // Set pin A0 as input
+  Serial.begin(9600);         // Begin serial communication at 9600 bps
+  pinMode(13, OUTPUT);        // Set pin 13 as output
 }
 
 void loop() {
-  // Wait a few seconds between measurements
-  delay(2000);
-  
-  // Read humidity and temperature values from the DHT22 sensor
-  float humidity = dht.readHumidity();
-  float temperatureC = dht.readTemperature(); // in Celsius
-  float temperatureF = dht.readTemperature(true); // in Fahrenheit
-  
-  // Check if any reads failed and exit early (to try again)
-  if (isnan(humidity) || isnan(temperatureC) || isnan(temperatureF)) {
-    Serial.println("Failed to read from DHT sensor!");
-    return;
+  float val = analogRead(A0); // Read the analog value from pin A0
+  Serial.println(val);        // Print the value to the Serial Monitor
+
+  if (val > 31) {             // Check if the value is greater than 31
+    digitalWrite(13, HIGH);   // Turn on the LED on pin 13
+  } else {
+    digitalWrite(13, LOW);    // Turn off the LED on pin 13
   }
 
-  // Print the results to the Serial Monitor
-  Serial.print("Humidity: ");
-  Serial.print(humidity);
-  Serial.print(" %\t");
-  Serial.print("Temperature: ");
-  Serial.print(temperatureC);
-  Serial.print(" °C ");
-  Serial.print(temperatureF);
-  Serial.println(" °F");
+  delay(2000);                // Wait for 2 seconds before repeating the loop
 }
