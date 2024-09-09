@@ -1,22 +1,29 @@
-#include <Servo.h>
+#include <LiquidCrystal_I2C.h>
 
-Servo myservo;  // create servo object to control a servo
-                // twelve servo objects can be created on most boards
-
-int pos = 0;    // variable to store the servo position
+// Initialize the LCD with I2C address 0x27, 16 columns, and 2 rows
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 void setup() {
-  myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+  // Initialize the LCD
+  lcd.init();
+  lcd.backlight();             // Turn on the LCD backlight
+  
+  // Display a setup message on the LCD
+  lcd.setCursor(0, 0);         // Set the cursor to the first row, first column
+  lcd.print("SET UP...");      // Print "SET UP..." on the LCD
+  delay(2000);                 // Wait for 2 seconds
+  lcd.clear();                 // Clear the display
 }
 
 void loop() {
-  for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15ms for the servo to reach the position
-  }
-  for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15ms for the servo to reach the position
-  }
+  // Display text on the LCD
+  lcd.setCursor(0, 0);         // Set the cursor to the first row, first column
+  lcd.print("LCD");            // Print "LCD" on the first row
+  lcd.setCursor(0, 1);         // Set the cursor to the second row, first column
+  lcd.print("DISPLAY");        // Print "DISPLAY" on the second row
+  
+  delay(2000);                 // Wait for 2 seconds
+  
+  // Clear the display to prevent overwriting
+  lcd.clear();
 }
